@@ -45,5 +45,3 @@ To run the Operator outside of your cluster:
 make
 hack/run-external.sh <kubectl cluster name>
 ```
-
-**The Prometheus Operator collects anonymous usage statistics to help us learning how the software is being used and how we can improve it. To disable collection, run the Operator with the flag `-analytics=false`**

@@ -19,13 +19,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/coreos/prometheus-operator/pkg/analytics"
 	"github.com/coreos/prometheus-operator/pkg/operator"
 )
 
 var (
-	cfg              operator.Config
-	analyticsEnabled bool
+	cfg operator.Config
 )
 
 func init() {
@@ -36,15 +34,11 @@ func init() {
 	flagset.StringVar(&cfg.TLSConfig.KeyFile, "key-file", "", "- NOT RECOMMENDED FOR PRODUCTION - Path to private TLS certificate file.")
 	flagset.StringVar(&cfg.TLSConfig.CAFile, "ca-file", "", "- NOT RECOMMENDED FOR PRODUCTION - Path to TLS CA file.")
 	flagset.BoolVar(&cfg.TLSInsecure, "tls-insecure", false, "- NOT RECOMMENDED FOR PRODUCTION - Don't verify API server's CA certificate.")
-	flagset.BoolVar(&analyticsEnabled, "analytics", true, "Send analytical event (Cluster Created/Deleted etc.) to Google Analytics")
 
 	flagset.Parse(os.Args[1:])
 }
 
 func main() {
-	if analyticsEnabled {
-		analytics.Enable()
-	}
 	c, err := operator.New(cfg)
 	if err != nil {
 		fmt.Fprint(os.Stderr, err)

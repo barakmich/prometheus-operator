@@ -23,7 +23,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/coreos/prometheus-operator/pkg/analytics"
 	"github.com/coreos/prometheus-operator/pkg/spec"
 
 	"github.com/go-kit/kit/log"
@@ -136,12 +135,10 @@ func (c *Operator) Run(stopc <-chan struct{}) error {
 	c.promInf.AddEventHandler(cache.ResourceEventHandlerFuncs{
 		AddFunc: func(p interface{}) {
 			c.logger.Log("msg", "enqueuePrometheus", "trigger", "prom add")
-			analytics.PrometheusCreated()
 			c.enqueuePrometheus(p)
 		},
 		DeleteFunc: func(p interface{}) {
 			c.logger.Log("msg", "enqueuePrometheus", "trigger", "prom del")
-			analytics.PrometheusDeleted()
 			c.enqueuePrometheus(p)
 		},
 		UpdateFunc: func(_, p interface{}) {
