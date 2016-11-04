@@ -1,5 +1,9 @@
-FROM quay.io/prometheus/busybox:latest
+FROM golang:latest
 
-ADD operator /bin/operator
+# Set up workdir
+WORKDIR /go/src/github.com/coreos/prometheus-operator
 
-ENTRYPOINT ["/bin/operator"]
+ADD . .
+RUN go build ./cmd/operator
+
+ENTRYPOINT ["./operator"]
